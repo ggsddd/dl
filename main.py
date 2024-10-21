@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.optimize import minimize
 
 # 定义网络中的节点数
 n_nodes = 3
@@ -56,3 +57,13 @@ for k in range(max_iter):
 
 # 最终状态估计
 print(f"Final state estimates: {x}")
+
+
+# 使用scipy求解最优参数
+
+def objective(x):
+    return local_objective(x,params[0])+local_objective(x,params[1])+local_objective(x,params[2])
+
+x0 = np.array([0.0])
+result = minimize(objective, x0, method='nelder-mead', options={'xatol': 1e-8, 'disp': True})
+print(result.x)
